@@ -9,7 +9,7 @@
     require_once('helper.php');
     $produit = $quantity = $price = $date_com = $specification = "";
     $e_price = $e_quantity = "";
-    if(isset($_POST['produit']) && isset($_POST['quantity']) && isset($_POST['price']) && isset($_POST['date_com'])){
+    if(isset($_POST['produit']) && isset($_POST['quantity']) && isset($_POST['price'])){
         if (!empty($_POST['produit'])) {
             $produit = test_entries($_POST['produit']);
         }
@@ -25,6 +25,8 @@
         }
         if (!empty($_POST['date_com'])) {
             $date_com = test_entries($_POST['date_com']);
+        }else{
+            $date_com = date('Y-m-d');
         }
         if (!empty($_POST['specification'])) {
             $specification = test_entries($_POST['specification']);
@@ -40,7 +42,6 @@
             $registrated = 'erreur :'.mysqli_error($conn);
         }
         echo $registrated;
-        echo '\n'.$montant_total;
     }
     
     $query_produit = "SELECT * FROM produit ";
@@ -84,7 +85,7 @@
 <div class="form-group row">
     <div class="col-sm-6 mb-3 mb-sm-0">
         <input class="form-control " type="number" id="price" placeholder="Prix d'achat" name="price" value="<?php if(!empty($price)) {echo $price ;}?>">
-        <span style="color:red"><?php if(!empty($e_price)) {echo '*'.$e_nom ;}?></span>
+        <span style="color:red"><?php if(!empty($e_price)) {echo '*'.$e_price ;}?></span>
     </div>
     <div class="col-sm-6 mb-3 mb-sm-0">
         <input class="form-control" type="date" name="date_com" value="<?php if(!empty($date_com)) {echo $date_com ;}?>">    
