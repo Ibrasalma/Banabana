@@ -164,18 +164,5 @@
     </div>
 </div>
 <script>
-$('#btnSubmit').click(function() {
-     /* when the button in the form, display the entered values in the modal */
-     $('#nom').text($('#nom').val());
-     $('#adresse').text($('#adresse').val());
-     $('#email').text($('#email').val());
-     $('#tel').text($('#tel').val());
-     $('#domaine').text($('#domaine').val());
-});
 
-$('#submit').click(function(){
-     /* when the submit button in the modal is clicked, submit the form */
-    alert('submitting');
-    $('#formulaire').submit();
-});
 </script>

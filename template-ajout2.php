@@ -5,7 +5,7 @@
                                             <input class="btn btn-primary btn-block text-white btn-google btn-user" type="reset" name="cancel" value="Annuler l'ajout">
                                         </div>
                                         <div class="col">
-                                            <input id="btnSubmit" class="btn btn-primary btn-block text-white btn-user" data-toggle="modal" data-target="#modal1" type="button" name="submit" value="Valider l'ajout">
+                                            <input id="btnSubmit" class="btn btn-primary btn-block text-white btn-user" type="submit" name="submit" value="Valider l'ajout">
                                         </div>
                                         <?php if($nom == 'Commande') {echo '<div class="col"><a data-toggle="modal" data-target="#modal" class="btn btn-success btn-block text-white btn-user" type="button">Facturer</a></div>';}?>
                                     </div>
