@@ -45,14 +45,15 @@
         }else{
             $image = '';
         }
-        $query = "INSERT INTO client(nom, adresse, email, tel, domaine, avatar, date_enregistre) VALUES('$nom_f', '$adresse', '$email', '$tel', '$domaine', '$image', '$date_en')";
+        $query = "INSERT INTO client(nom, adresse, email, telephone, domaine, photo, date_enregistrement) VALUES('$nom_f', '$adresse', '$email', '$tel', '$domaine', '$image', '$date_en')";
         $registrated = '';
         if(mysqli_query($conn,$query)){
             $registrated = 'Enrégistré avec succes';
-            echo "<script>$('#modal').modal('show')</script>";
+            
         }else{
             $registrated = 'erreur :'.mysqli_error($conn);
         }
+        echo $registrated;
     }
 
     mysqli_close($conn);

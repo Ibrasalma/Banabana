@@ -17,7 +17,7 @@
         }else{
             $date_com = date('Y-m-d H:i:s');
         }
-        $query = "INSERT INTO livraison(id_facture, statut, date_livre) VALUES('$facture', '$status', '$date_com')";
+        $query = "INSERT INTO livraison(numero_facture, statut, date_livraison) VALUES('$facture', '$status', '$date_com')";
         $registrated = '';
         
         if(mysqli_query($conn,$query)){

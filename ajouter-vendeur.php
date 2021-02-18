@@ -51,7 +51,7 @@
         }else{
             $image = '';
         }
-        $query = "INSERT INTO vendeur(nom, adresse, boutique, email, tel, wechat, domaine, date_enregistre, carte_visite) VALUES('$nom_f', '$adresse', '$boutique', '$email', '$tel', '$wechat', '$domaine', '$date_en', '$image')";
+        $query = "INSERT INTO vendeur(nom, adresse, boutique, email, telephone, wechat, domaine, date_enregistrement, photo) VALUES('$nom_f', '$adresse', '$boutique', '$email', '$tel', '$wechat', '$domaine', '$date_en', '$image')";
         $registrated = '';
         if(mysqli_query($conn,$query)){
             $registrated = 'Enrégistré avec succes';

@@ -20,14 +20,14 @@
         }
         if (!empty($_POST['facture'])) {
             $facture = test_entries($_POST['facture']);
-            $ligne_payment = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM payement where id_receipt = '$facture' "));
+            $ligne_payment = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM payement where numero_facture = '$facture' "));
             if ($ligne_payment == 0) {
                 $query_p = "SELECT avance, montant_total FROM facture where id = '$facture' ";
                 $ligne_total = mysqli_fetch_assoc(mysqli_query($conn, $query_p));
                 $total_paye = $ligne_total['avance'] + $versement;
                 $reste = $ligne_total['montant_total'] - $total_paye;
             } else {
-                $query_p = "SELECT facture.avance as avance, facture.montant_total as montant_total, (sum(payement.versement) + facture.avance) as total FROM facture, payement where facture.id = '$facture' AND payement.id_receipt = '$facture' ";
+                $query_p = "SELECT facture.avance as avance, facture.montant_total as montant_total, (sum(payement.versement) + facture.avance) as total FROM facture, payement where facture.id = '$facture' AND payement.numero_facture = '$facture' ";
                 $result_p = mysqli_query($conn, $query_p) or die(mysqli_error($conn));
                 $row_number_p = mysqli_num_rows($result_p);
                 if ($row_number_p != 0) {
@@ -39,7 +39,7 @@
                 }
             }
         }
-        $query = "INSERT INTO payement(id_receipt, versement, total_paye, reste, date_paye) VALUES('$facture', '$versement', '$total_paye', '$reste', '$date_com')";
+        $query = "INSERT INTO payement(numero_facture, versement, total_payee, reste, date_payement) VALUES('$facture', '$versement', '$total_paye', '$reste', '$date_com')";
         $registrated = '';
         
         if(mysqli_query($conn,$query)){
@@ -61,7 +61,7 @@
             <?php
             if($row_number > 0){    
                 while($row = mysqli_fetch_assoc($result)){ ?>
-                <option value="<?php echo $row["id"] ?>" placeholder="facture" <?php if($row["id"] == $facture) {echo "selected" ;}?>><?php echo $row["numero_recu"] ?></option>
+                <option value="<?php echo $row["id"] ?>" placeholder="facture" <?php if($row["id"] == $facture) {echo "selected" ;}?>><?php echo $row["numero_facture"] ?></option>
             <?php 
                 }
             }else{

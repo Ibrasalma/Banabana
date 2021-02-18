@@ -23,7 +23,7 @@
         if (!empty($_POST['note'])) {
             $note = test_entries($_POST['note']);
         }
-        $query = "INSERT INTO depense(id_client, motif, date_, montant) VALUES('$client', '$note', '$date_com','$montant')";
+        $query = "INSERT INTO depense(client, motif, date_enregistrement, montant) VALUES('$client', '$note', '$date_com','$montant')";
         $registrated = '';
         
         if(mysqli_query($conn,$query)){

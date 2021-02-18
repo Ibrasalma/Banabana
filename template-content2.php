@@ -16,5 +16,5 @@
             </div>
         </div>
     </div>
-</div></div>
+</div>
 <?php include('template2.php') ?> 

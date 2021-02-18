@@ -30,8 +30,8 @@
                         <li class="nav-item"><a class="nav-link <?php if(strpos($url, "somme-content.php")){ echo "active";} ?>" href="somme-content.php"><i class="fas fa-user-circle"></i><span>Depot</span></a></li>
                         <li class="nav-item"><a class="nav-link <?php if(strpos($url, "produit-content.php")){ echo "active";} ?>" href="produit-content.php"><i class="fas fa-exclamation-circle"></i><span>Produit</span></a></li>
                         <li class="nav-item"><a class="nav-link <?php if(strpos($url, "commande-content.php")){ echo "active";} ?>" href="commande-content.php"><i class="fas fa-exclamation-circle"></i><span>Commande</span></a></li>
-                        <!-- <li class="nav-item"><a class="nav-link" href="facture-content.php"><i class="fas fa-exclamation-circle"></i><span>Facture</span></a></li> -->
-                        <li class="nav-item"><a class="nav-link <?php if(strpos($url, "facture-content.php")){ echo "active";} ?>" href="facture-content.php"><i class="fas fa-exclamation-circle"></i><span>Payer Facture</span></a></li>
+                        <li class="nav-item"><a class="nav-link <?php if(strpos($url, "facturation-content.php")){ echo "active";} ?>" href="facturation-content.php"><i class="fas fa-exclamation-circle"></i><span>Facture</span></a></li>
+                        <li class="nav-item"><a class="nav-link <?php if(strpos($url, "facture-content.php")){ echo "active";} ?>" href="facture-content.php"><i class="fas fa-exclamation-circle"></i><span>Payement</span></a></li>
                         <li class="nav-item"><a class="nav-link <?php if(strpos($url, "depense-content.php")){ echo "active";} ?>" href="depense-content.php"><i class="fas fa-exclamation-circle"></i><span>Depense</span></a></li>
                         <li class="nav-item"><a class="nav-link <?php if(strpos($url, "livraison-content.php")){ echo "active";} ?>" href="livraison-content.php"><i class="fas fa-exclamation-circle"></i><span>Livraison</span></a></li>
                     </ul>

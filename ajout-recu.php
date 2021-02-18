@@ -6,7 +6,7 @@
     $vendeur = $_SESSION['vendeur'];
     $target_dir = 'images/factures/';
     require_once('db.php');
-    $query = "SELECT sum(quantite*prix_unitaire) as montant_total from commander where num_rec = '$numrecu'";
+    $query = "SELECT sum(quantite*prix_unitaire) as montant_total from commander where numero_facture = '$numrecu'";
     $result = mysqli_query($conn, $query) or die(mysqli_error($conn));
     $row = mysqli_fetch_assoc($result);
     $montant_total = $row['montant_total'];
@@ -26,7 +26,7 @@
         }else{
             $image = '';
         }
-        $query_add = "INSERT INTO facture(numero_recu, id_client, id_vendeur,montant_total, date_, avance, photo_recu) VALUES('$numrecu', '$client', '$vendeur', '$montant_total', '$date_en', '$deposit', '$image')";
+        $query_add = "INSERT INTO facture(numero_facture, client, vendeur,montant_total, date_facturation, avance, photo) VALUES('$numrecu', '$client', '$vendeur', '$montant_total', '$date_en', '$deposit', '$image')";
         $registrated = '';
         if(mysqli_query($conn,$query_add)){
             $registrated = 'Enrégistré avec succes';

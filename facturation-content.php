@@ -1,8 +1,7 @@
 <?php
     global $nom_content, $titre_content, $lien, $start, $end;
-    $nom_content = "Clients";
-    $titre_content = "Enregistrer un nouveau client";
-    $lien = "ajouter-client.php";
+    $nom_content = "Factures";
+    $titre_content = "";
     if(isset($_POST["pagination"])){
         $page = $_POST["pagination"];
     }
@@ -14,7 +13,7 @@
     $end = $start + $display_par_page;
     include('template-content.php');
     require_once('./db.php');
-    $table_name = 'client';
+    $table_name = 'facture';
     $la_limite = '';
     if (!empty($_SESSION['limite'])) {
         $la_limite = "LIMIT ".$_SESSION['limite'];
@@ -31,7 +30,6 @@
 
     <thead>
         <tr>
-            <th>Action</th>
         <?php while($row_col = mysqli_fetch_assoc($fields)) { $column_names[] = $row_col; }?>
         <?php $column_array = array_column($column_names, 'COLUMN_NAME') ?>
         <?php foreach($column_array as $la_column){?><th><?php echo column_gestion($la_column); }?></th>
@@ -45,18 +43,34 @@
     if($row_number > 0){   
         while($row = mysqli_fetch_assoc($result)){ ?>
         <tr>
-            <td><button class="btn btn-success" style="margin-left: 5px;" type="submit"><i class="fa fa-edit" style="font-size: 15px;"></i></button><button class="btn btn-danger" style="margin-left: 5px;" type="submit"><i class="fa fa-trash" style="font-size: 15px;"></i></button></td>
-            <?php foreach($column_array as $la_column){?>
-            <td><?php if($la_column == 'photo'){
-                    $initial = strpos($row[$la_column],$row['nom']) + strlen($row['nom']);
-                    $final = strlen($row[$la_column]) - $initial;
-                    $img = 'images/clients/'. substr($row[$la_column],$initial, $final); 
-                    echo '<img class="rounded-circle mr-2" width="40" height="40" src="'.$img.'" alt="">';
-                } else { 
-                    echo $row[$la_column]; 
-                }}?>
+            <?php for($i = 0; $i < count($column_array); $i++){?>
+            <td>
+                <?php
+                    if($i == 2){
+                        $arr = $column_array[1];
+                        $id = $row[$arr];
+                        $query_client = "SELECT * FROM client WHERE id = '$id'";
+                        $result_client = mysqli_query($conn, $query_client) or die(mysqli_error($conn));
+                        while($row_client = mysqli_fetch_assoc($result_client)){echo $row_client['nom'];}
+                    }else if($i == 3){
+                        $arr = $column_array[1];
+                        $id = $row[$arr];
+                        $query_client = "SELECT * FROM vendeur WHERE id = '$id'";
+                        $result_client = mysqli_query($conn, $query_client) or die(mysqli_error($conn));
+                        while($row_client = mysqli_fetch_assoc($result_client)){echo $row_client['nom'];}
+                    }else if($i == 7){
+                        $arr1 = $column_array[7];
+                        $arr2 = $column_array[1];
+                        $initial = strpos($row[$arr1],$row[$arr2]) + strlen($row[$arr2]);
+                        $final = strlen($row[$arr1]) - $initial;
+                        $img = 'images/factures/'. substr($row[$arr1],$initial, $final);
+                        echo '<img class="rounded-circle mr-2" width="40" height="40" src="'.$img.'" alt="">';
+                    }else{
+                        echo $row[$column_array[$i]];
+                    }}
+                ?>
             </td>
-        </tr> 
+        </tr>
     <?php 
         }
     }else{

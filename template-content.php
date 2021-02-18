@@ -5,6 +5,7 @@
         $_SESSION['limite'] = $limite;
     }
     require_once('db.php');
+    require_once('helper.php');
     $query_client = "SELECT * FROM client ";
     $result_client = mysqli_query($conn, $query_client) or die(mysqli_error($conn));
     $row_number_client = mysqli_num_rows($result_client);
@@ -83,7 +84,12 @@
                 <div class="col" style="width: 400;text-align: left;">
                     <p class="text-primary m-0 font-weight-bold">Liste des <?php if(!empty($limite)) {echo $limite;} echo ' '. $nom_content ;?></p>
                 </div>
-                <div class="col"><a <?php if($nom_content == 'Commandes') {echo ' data-toggle="modal" data-target="#modal"' ; } else{ echo 'href="'.$lien.'"' ;}  ?> class="btn btn-primary" type="button" style="text-align: right;"><?php echo $titre_content ;?></a>
+            
+                <div class="col">
+                <?php if($titre_content != '') {?>
+                    <a <?php if($nom_content == 'Commandes') {echo ' data-toggle="modal" data-target="#modal"' ; } else{ echo 'href="'.$lien.'"' ;}  ?> class="btn btn-primary" type="button" style="text-align: right;"><?php echo $titre_content ;?></a>
+                    <?php }?>
+                </div>
             </div>
         </div>
     </div>

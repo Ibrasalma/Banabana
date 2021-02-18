@@ -15,14 +15,13 @@
     include('template-content.php');
     require_once('./db.php');
     $table_name = 'vendeur';
-    $nombre_ligne = $_SESSION['limite'];
     $la_limite = '';
-    if (!empty($nombre_ligne)) {
-        $la_limite = "LIMIT ".$nombre_ligne;
+    if (!empty($_SESSION['limite'])) {
+        $la_limite = "LIMIT ".$_SESSION['limite'];
     }
-    $query_s = "SELECT * FROM $table_name";
+    $query_s = "SELECT * FROM $table_name $la_limite";
     $query = "SELECT * FROM $table_name LIMIT $start, $display_par_page";
-    $fields = mysqli_query ($conn, "SHOW COLUMNS FROM $table_name");
+    $fields = mysqli_query ($conn, "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA='banabana' AND TABLE_NAME = '$table_name'");
     $colums = mysqli_num_rows($fields);
     $result_s = mysqli_query($conn, $query_s) or die(mysqli_error($conn));
     $result = mysqli_query($conn, $query) or die(mysqli_error($conn));
@@ -32,9 +31,9 @@
 
     <thead>
         <tr>
-        <?php while($row_col = mysqli_fetch_assoc($fields)) {?>
-            <th><?php print_r($row_col['Field']) ;?></th>
-        <?php } ?>
+        <?php while($row_col = mysqli_fetch_assoc($fields)) { $column_names[] = $row_col; }?>
+        <?php $column_array = array_column($column_names, 'COLUMN_NAME') ?>
+        <?php foreach($column_array as $la_column){?><th><?php echo column_gestion($la_column); }?></th>
         </tr>
     </thead>
     <tbody>
@@ -45,16 +44,14 @@
     if($row_number > 0){   
         while($row = mysqli_fetch_assoc($result)){ ?>
         <tr>
-            <td><?php echo $row["id"]; ?></td>
-            <td><?php echo $row["nom"]; ?></td>
-            <td><?php echo $row["adresse"]; ?></td>
-            <td><?php echo $row["boutique"]; ?></td>
-            <td><?php echo $row["email"]; ?></td>
-            <td><?php echo $row["tel"]; ?></td>
-            <td><?php echo $row["wechat"]; ?></td>
-            <td><?php echo $row["domaine"]; ?></td>
-            <td><?php echo $row["date_enregistre"]; ?></td>
-            <td><?php echo $row["carte_visite"]; ?></td>
+            <?php foreach($column_array as $la_column){?>
+            <td><?php if($la_column == 'photo'){
+                    $img = 'images/vendeurs/'. $row[$la_column]; 
+                    echo '<img class="rounded-circle mr-2" width="40" height="40" src="'.$img.'" alt="">';
+                } else { 
+                    echo $row[$la_column]; 
+                }}?>
+            </td>
         </tr>
     <?php 
         }
@@ -66,9 +63,9 @@
     </tbody>
     <tfoot>
         <tr>
-        <?php while($row_col = mysqli_fetch_assoc($fields)) {?>
-            <th><?php print_r($row_col['Field']) ;?></th>
-        <?php } ?>
+        <?php while($row_col = mysqli_fetch_assoc($fields)) { $column_names[] = $row_col; }?>
+        <?php $column_array = array_column($column_names, 'COLUMN_NAME') ?>
+        <?php foreach($column_array as $la_column){?><th><?php echo column_gestion($la_column); }?></th>
         </tr>
     </tfoot>
     <?php

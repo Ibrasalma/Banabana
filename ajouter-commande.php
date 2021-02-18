@@ -31,7 +31,7 @@
         if (!empty($_POST['specification'])) {
             $specification = test_entries($_POST['specification']);
         }
-        $query = "INSERT INTO commander(num_rec, client, vendeur, produit, quantite, prix_unitaire, date_commande, specification) VALUES('$numrecu', '$client', '$vendeur', '$produit', '$quantity', '$price', '$date_com','$specification')";
+        $query = "INSERT INTO commander(numero_facture, client, vendeur, produit, quantite, prix_unitaire, date_commande, specification) VALUES('$numrecu', '$client', '$vendeur', '$produit', '$quantity', '$price', '$date_com','$specification')";
         $registrated = '';
         
         if(mysqli_query($conn,$query)){

@@ -30,7 +30,7 @@
         }else{
             $image = '';
         }
-        $query = "INSERT INTO argent(id_client, montant, detail, recu, date_reception) VALUES('$client', '$montant', '$specification','$image','$date_com')";
+        $query = "INSERT INTO argent(client, montant, detail, photo, date_reception) VALUES('$client', '$montant', '$specification','$image','$date_com')";
         $registrated = '';
         
         if(mysqli_query($conn,$query)){

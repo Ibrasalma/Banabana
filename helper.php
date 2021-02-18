@@ -5,4 +5,8 @@
         $data = htmlspecialchars($data);
         return $data;
     }
+    function column_gestion($column){
+        $column = strtr($column,"_"," ");
+        return $column;
+    }
 ?>
