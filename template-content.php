@@ -1,5 +1,9 @@
 <?php 
     include('template.php');
+    if(isset($_POST['change']) && !empty($_POST['change'])){
+        $limite = $_POST['change'];
+        $_SESSION['limite'] = $limite;
+    }
     require_once('db.php');
     $query_client = "SELECT * FROM client ";
     $result_client = mysqli_query($conn, $query_client) or die(mysqli_error($conn));
@@ -77,7 +81,7 @@
         <div class="card-header py-3">
             <div class="row">
                 <div class="col" style="width: 400;text-align: left;">
-                    <p class="text-primary m-0 font-weight-bold">Liste des <?php echo $nom_content ;?></p>
+                    <p class="text-primary m-0 font-weight-bold">Liste des <?php if(!empty($limite)) {echo $limite;} echo ' '. $nom_content ;?></p>
                 </div>
                 <div class="col"><a <?php if($nom_content == 'Commandes') {echo ' data-toggle="modal" data-target="#modal"' ; } else{ echo 'href="'.$lien.'"' ;}  ?> class="btn btn-primary" type="button" style="text-align: right;"><?php echo $titre_content ;?></a>
             </div>
@@ -87,40 +91,24 @@
         <div class="row">
             <div class="col-md-6 text-nowrap">
                 <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable">
-                    <label>Show&nbsp;
-                        <select class="form-control form-control-sm custom-select custom-select-sm">
-                            <option value="10" selected="">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>&nbsp;
-                    </label>
+                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" id="formlimite">
+                        <label>Montrer&nbsp;
+                            <select class="form-control form-control-sm custom-select custom-select-sm" name="change" onChange="document.getElementById('formlimite').submit();">
+                                <option value="10" <?php if(!empty($limite) && $limite == "10"){ echo "selected";} ?>>10</option>
+                                <option value="25" <?php if(!empty($limite) && $limite == "25"){ echo "selected";} ?>>25</option>
+                                <option value="50" <?php if(!empty($limite) && $limite == "50"){ echo "selected";} ?>>50</option>
+                                <option value="100" <?php if(!empty($limite) && $limite == "100"){ echo "selected";} ?>>100</option>
+                            </select>&nbsp;
+                        </label>
+                        <noscript><input type="submit" value="Changer" /></noscript>
+                    </form>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="text-md-right dataTables_filter" id="dataTable_filter">
-                    <label><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search"></label>
+                    <span class="counter pull-right"></span><label><input type="search" class="form-control form-control-sm search" aria-controls="dataTable" placeholder="Search"></label>
                 </div>
             </div>
         </div>
-        <script>
-  $(function(){
-    $('form').submit(function(e) {
-      e.preventDefault()
-      var $form = $(this)
-      $.post($form.attr('action'), $form.serialize())
-      .done(function(data) {
-        $('#html').html(data)
-        $('#formulaire').modal('hide')
-      })
-      .fail(function() {
-        alert('ça ne marche pas...')
-      })
-    })
-    $('.modal').on('shown.bs.modal', function(){
-      $('input:first').focus()
-    })
-  });
-</script>
-        <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+        <div class="table-responsive table mt-2 results" id="dataTable" role="grid" aria-describedby="dataTable_info">
             <table class="table my-0" id="dataTable">
