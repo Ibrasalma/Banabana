@@ -1,6 +1,4 @@
 
-            </table>
-        </div>
         <div class="row">
             <div class="col-md-6 align-self-center">
                 <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Elements de <?php echo $start +1; ?> à <?php echo $end; ?> sur <?php echo $row_number; $compteur = $row_number/10;?> </p>

@@ -81,11 +81,11 @@
     <div class="card shadow">
         <div class="card-header py-3">
             <div class="row">
-                <div class="col" style="width: 400;text-align: left;">
+                <div class="col-sm-6" style="width: 400;text-align: left;">
                     <p class="text-primary m-0 font-weight-bold">Liste des <?php if(!empty($limite)) {echo $limite;} echo ' '. $nom_content ;?></p>
                 </div>
             
-                <div class="col">
+                <div class="col-sm-6">
                 <?php if($titre_content != '') {?>
                     <a <?php if($nom_content == 'Commandes') {echo ' data-toggle="modal" data-target="#modal"' ; } else{ echo 'href="'.$lien.'"' ;}  ?> class="btn btn-primary" type="button" style="text-align: right;"><?php echo $titre_content ;?></a>
                     <?php }?>

@@ -19,15 +19,15 @@ USE `banabana`;
 -- Dumping structure for table banabana.argent
 CREATE TABLE IF NOT EXISTS `argent` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_client` int(11) NOT NULL,
+  `client` int(11) NOT NULL,
   `montant` float NOT NULL,
   `detail` text,
-  `recu` varchar(255) DEFAULT NULL,
   `date_reception` datetime NOT NULL,
+  `photo` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `id_client` (`id_client`),
-  CONSTRAINT `argent_ibfk_1` FOREIGN KEY (`id_client`) REFERENCES `client` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  KEY `id_client` (`client`),
+  CONSTRAINT `argent_ibfk_1` FOREIGN KEY (`client`) REFERENCES `client` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 
@@ -37,19 +37,19 @@ CREATE TABLE IF NOT EXISTS `client` (
   `nom` varchar(50) NOT NULL,
   `adresse` varchar(100) NOT NULL,
   `email` varchar(50) DEFAULT NULL,
-  `tel` varchar(15) NOT NULL,
+  `telephone` varchar(15) NOT NULL,
   `domaine` varchar(25) DEFAULT NULL,
-  `date_enregistre` datetime NOT NULL,
-  `avatar` varchar(255) DEFAULT NULL,
+  `date_enregistrement` datetime NOT NULL,
+  `photo` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 
 -- Dumping structure for table banabana.commander
 CREATE TABLE IF NOT EXISTS `commander` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `num_rec` varchar(50) NOT NULL,
+  `numero_facture` varchar(50) NOT NULL,
   `client` int(11) NOT NULL,
   `vendeur` int(11) NOT NULL,
   `produit` int(11) NOT NULL,
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `commander` (
   CONSTRAINT `commander_ibfk_1` FOREIGN KEY (`client`) REFERENCES `client` (`id`),
   CONSTRAINT `commander_ibfk_2` FOREIGN KEY (`produit`) REFERENCES `produit` (`id_produit`),
   CONSTRAINT `commander_ibfk_3` FOREIGN KEY (`vendeur`) REFERENCES `vendeur` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 -- Data exporting was unselected.
 
@@ -82,34 +82,34 @@ CREATE TABLE IF NOT EXISTS `contact` (
 -- Dumping structure for table banabana.depense
 CREATE TABLE IF NOT EXISTS `depense` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_client` int(11) NOT NULL,
+  `client` int(11) NOT NULL,
   `motif` text NOT NULL,
-  `date_` datetime NOT NULL,
+  `date_enregistrement` datetime NOT NULL,
   `montant` float NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `id_client` (`id_client`),
-  CONSTRAINT `depense_ibfk_1` FOREIGN KEY (`id_client`) REFERENCES `client` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  KEY `id_client` (`client`),
+  CONSTRAINT `depense_ibfk_1` FOREIGN KEY (`client`) REFERENCES `client` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- Data exporting was unselected.
 
 -- Dumping structure for table banabana.facture
 CREATE TABLE IF NOT EXISTS `facture` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `numero_recu` varchar(50) NOT NULL,
-  `id_client` int(11) NOT NULL,
-  `id_vendeur` int(11) NOT NULL,
-  `date_` datetime NOT NULL,
+  `numero_facture` varchar(50) NOT NULL,
+  `client` int(11) NOT NULL,
+  `vendeur` int(11) NOT NULL,
+  `date_facturation` datetime NOT NULL,
   `montant_total` float NOT NULL,
   `avance` float NOT NULL DEFAULT '0',
-  `photo_recu` varchar(255) NOT NULL,
+  `photo` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `numero_recu` (`numero_recu`),
-  KEY `id_client` (`id_client`),
-  KEY `id_vendeur` (`id_vendeur`),
-  CONSTRAINT `recu_ibfk_1` FOREIGN KEY (`id_client`) REFERENCES `client` (`id`),
-  CONSTRAINT `recu_ibfk_2` FOREIGN KEY (`id_vendeur`) REFERENCES `vendeur` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  KEY `numero_recu` (`numero_facture`),
+  KEY `id_client` (`client`),
+  KEY `id_vendeur` (`vendeur`),
+  CONSTRAINT `recu_ibfk_1` FOREIGN KEY (`client`) REFERENCES `client` (`id`),
+  CONSTRAINT `recu_ibfk_2` FOREIGN KEY (`vendeur`) REFERENCES `vendeur` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- Data exporting was unselected.
 
@@ -132,13 +132,13 @@ CREATE TABLE IF NOT EXISTS `ligne_commande` (
 -- Dumping structure for table banabana.livraison
 CREATE TABLE IF NOT EXISTS `livraison` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_facture` int(11) NOT NULL,
+  `numero_facture` int(11) NOT NULL,
   `statut` varchar(25) NOT NULL,
-  `date_livre` datetime NOT NULL,
+  `date_livraison` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `id_facture` (`id_facture`),
-  CONSTRAINT `livraison_ibfk_1` FOREIGN KEY (`id_facture`) REFERENCES `facture` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  KEY `id_facture` (`numero_facture`),
+  CONSTRAINT `livraison_ibfk_1` FOREIGN KEY (`numero_facture`) REFERENCES `facture` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- Data exporting was unselected.
 
@@ -156,15 +156,15 @@ CREATE TABLE IF NOT EXISTS `login` (
 -- Dumping structure for table banabana.payement
 CREATE TABLE IF NOT EXISTS `payement` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_receipt` int(11) NOT NULL,
+  `numero_facture` int(11) NOT NULL,
   `versement` float NOT NULL,
-  `total_paye` float NOT NULL,
+  `total_payee` float NOT NULL,
   `reste` float NOT NULL,
-  `date_paye` datetime NOT NULL,
+  `date_payement` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `id_receipt` (`id_receipt`),
-  CONSTRAINT `receipt_ibfk_1` FOREIGN KEY (`id_receipt`) REFERENCES `facture` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  KEY `id_receipt` (`numero_facture`),
+  CONSTRAINT `receipt_ibfk_1` FOREIGN KEY (`numero_facture`) REFERENCES `facture` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- Data exporting was unselected.
 
@@ -174,11 +174,11 @@ CREATE TABLE IF NOT EXISTS `produit` (
   `slug` varchar(10) NOT NULL,
   `nom` varchar(50) NOT NULL,
   `prix_brut` float DEFAULT NULL,
-  `photo` varchar(255) DEFAULT NULL,
   `detail` text,
+  `photo` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_produit`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- Data exporting was unselected.
 
@@ -189,11 +189,11 @@ CREATE TABLE IF NOT EXISTS `vendeur` (
   `adresse` varchar(100) NOT NULL,
   `boutique` varchar(10) NOT NULL,
   `email` varchar(50) DEFAULT NULL,
-  `tel` varchar(15) NOT NULL,
+  `telephone` varchar(15) NOT NULL,
   `wechat` varchar(25) NOT NULL,
   `domaine` varchar(25) DEFAULT NULL,
-  `date_enregistre` datetime NOT NULL,
-  `carte_visite` varchar(255) DEFAULT NULL,
+  `date_enregistrement` datetime NOT NULL,
+  `photo` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 

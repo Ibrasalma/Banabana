@@ -72,6 +72,8 @@
         <?php foreach($column_array as $la_column){?><th><?php echo column_gestion($la_column); }?></th>
         </tr>
     </tfoot>
+    </table>
+</div>
     <?php
         include('template-content2.php') 
     ?>

@@ -33,7 +33,7 @@
             unset($numrecu);
             unset($client);
             unset($vendeur);
-            header("Location:facture-content.php");
+            header("Location:facturation-content.php");
         }else{
             echo 'erreur :'.mysqli_error($conn);
         }

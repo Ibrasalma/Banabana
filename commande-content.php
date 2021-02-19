@@ -44,10 +44,10 @@
         </tr>
     <?php
     if($row_number > 0){   
-        while($row = mysqli_fetch_assoc($result)){ ?>
+        while($row = mysqli_fetch_assoc($result)){ $_SESSION['ide'] = $row['id'];?>
         <tr>
             <td>
-                <button class="btn btn-success" style="margin-left: 5px;" type="submit">
+                <button class="btn btn-success" style="margin-left: 5px;" type="submit" data-toggle="modal" data-target="#update_modal<?php echo $_SESSION['ide']; ?>">
                     <i class="fa fa-edit" style="font-size: 15px;"></i>
                 </button>
                 <button class="btn btn-danger" style="margin-left: 5px;" type="submit">
@@ -83,7 +83,6 @@
     }else{
         echo "<tr>la table ne contient aucune ligne</tr>";
     } 
-    mysqli_close($conn);
     ?>         
     </tbody>
     <tfoot>
@@ -93,6 +92,83 @@
         <?php foreach($column_array as $la_column){?><th><?php echo column_gestion($la_column); }?></th>
         </tr>
     </tfoot>
+</table>
+</div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="update_modal<?php echo $_SESSION['ide']; ?>">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Ajouter une facture</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="p-5">
+                    <form class="user" action="ajout-recu.php" method="POST" enctype="multipart/form-data">
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <select class="form-control " name="produit">
+                                    <optgroup label="Liste des produits">
+                                    <?php
+                                    if($row_number_produit > 0){    
+                                        while($row_produit = mysqli_fetch_assoc($result_produit)){ ?>
+                                        <option value="<?php echo $row_produit["id_produit"] ?>" placeholder="produit" <?php if($row_produit["id_produit"] == $produit) {echo "selected" ;}?>><?php echo $row_produit["nom"] ?></option>
+                                    <?php 
+                                        }
+                                    }else{
+                                        echo "<tr>la table ne contient aucune ligne</tr>";
+                                    } 
+                                    mysqli_close($conn);
+                                    ?>
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control " type="number" id="quantity" placeholder="Quantité" name="quantity" value="<?php if(!empty($quantity)) {echo $quantity ;}?>">
+                                <span style="color:red"><?php if(!empty($e_quantity)) {echo '*'.$e_quantity ;}?></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input class="form-control " type="number" id="price" placeholder="Prix d'achat" name="price" value="<?php if(!empty($price)) {echo $price ;}?>">
+                                <span style="color:red"><?php if(!empty($e_price)) {echo '*'.$e_price ;}?></span>
+                            </div>
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input class="form-control" type="date" name="date_com" value="<?php if(!empty($date_com)) {echo $date_com ;}?>">    
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input readonly class="form-control " type="number" id="price" placeholder="Prix d'achat" name="price" value="<?php if(!empty($row['id'])) {echo $row['id'] ;}?>">
+                                <span style="color:red"><?php if(!empty($e_price)) {echo '*'.$e_price ;}?></span>
+                            </div>
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input class="form-control" type="date" name="date_com" value="<?php if(!empty($date_com)) {echo $date_com ;}?>">    
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" name="specification"><?php if(!empty($specification)) {echo $specification ;}?></textarea>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col">
+                                    <input class="btn btn-primary btn-block text-white btn-google btn-user" type="reset" name="cancel" value="Annuler l'ajout">
+                                </div>
+                                <div class="col">
+                                    <input class="btn btn-primary btn-block text-white btn-user" type="submit" name="submit" value="Valider l'ajout">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-light" type="button" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <?php
         include('template-content2.php') 
     ?>
